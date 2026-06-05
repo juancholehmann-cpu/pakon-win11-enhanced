@@ -112,7 +112,7 @@ The installer automatically performs the following actions:
 # Included Files
 
 | File | Purpose |
-|------|----------|
+|------|---------|
 | PSI.exe | Main PSI executable with Windows 11 compatibility and feature enhancements |
 | TLB.dll | RAW16 extraction, Half Frame support and additional functionality |
 | odbcjt32_patched_v10.dll | ODBC compatibility fix for Windows 11 |
@@ -143,6 +143,9 @@ At this time the issue is considered low priority because it does not affect ima
 This Windows 11 Enhanced Edition of Pakon PSI was created and maintained by:
 
 **Juan Cruz Lehmann**
+
+GitHub:
+https://github.com/juancholehmann-cpu
 
 The project focuses on preserving and extending the usability of the Pakon F135 on modern Windows systems while maintaining compatibility with the original workflow.
 
