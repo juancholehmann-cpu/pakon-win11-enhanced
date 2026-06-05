@@ -1,70 +1,106 @@
-# pprc + parche de header (full / half frame)
+# PPRC + Header Patch (Full-Frame / Half-Frame Support)
 
-Esto instala **pprc** (`pakon-planar-raw-converter`, el conversor de RAW planar de Pakon a TIFF)
-y le aplica un **parche** para que lea las dimensiones (ancho × alto) del **header de cada
-archivo `.raw`**. Así convierte full-frame, half-frame y fotos de cualquier ancho **sin** tener
-que pasar `--dimensions` a mano.
+This package installs **PPRC** (*pakon-planar-raw-converter*, the Pakon planar RAW to TIFF converter) and applies a **patch** that automatically reads image dimensions (width × height) from the header of each `.raw` file.
 
-## Qué incluye la carpeta
+This allows conversion of full-frame, half-frame and variable-width images **without** manually specifying `--dimensions`.
 
-- `Install-pprc.ps1` — instalador todo-en-uno (instala pprc si falta + aplica el parche).
-- `Restore-pprc.ps1` — deshace el parche (vuelve al pprc original).
-- `README.md` — esto.
+## Contents
 
-## Requisitos
+- `Install-pprc.ps1` — all-in-one installer (installs PPRC if missing and applies the patch).
+- `Restore-pprc.ps1` — restores the original PPRC installation.
+- `README.md` — this file.
 
-- **Node.js** (incluye npm): https://nodejs.org
-- **ImageMagick** (comando `magick`): https://imagemagick.org/script/download.php#windows
-  (pprc lo usa para convertir; el instalador avisa si falta).
-- *(Opcional)* **negfix8**: sólo si vas a usar pprc en su modo por defecto (negativos color).
-  Para positivos/E6 se usa `--e6` y no hace falta.
+## Requirements
 
-## Instalación (en otra PC o de cero)
+- **Node.js** (includes npm): https://nodejs.org
+- **ImageMagick** (`magick` command): https://imagemagick.org/script/download.php#windows
+  (required by PPRC for TIFF conversion; the installer will warn if it is missing).
+- *(Optional)* **negfix8** — only required when using PPRC in its default color-negative mode. For positives/E6 film, use `--e6` and negfix8 is not required.
 
-1. Copiá esta carpeta a la otra máquina.
-2. Abrí **PowerShell** dentro de la carpeta.
-3. Corré:
+## Installation
 
-   ```powershell
-   powershell -ExecutionPolicy Bypass -File .\Install-pprc.ps1
-   ```
+1. Copy this folder to the target computer.
+2. Open **PowerShell** inside the folder.
+3. Run:
 
-   El script: verifica Node/npm, instala pprc si no estaba, hace backup del archivo original,
-   aplica el parche (no rompe nada si ya estaba parcheado) y verifica la sintaxis.
+```powershell
+powershell -ExecutionPolicy Bypass -File .\Install-pprc.ps1
+```
 
-## Uso
+The installer will:
 
-En la carpeta donde tengas tus `.raw`:
+- Verify that Node.js and npm are installed.
+- Install PPRC if it is not already present.
+- Create a backup of the original file.
+- Apply the header-detection patch.
+- Verify that the modified file is valid.
+- Skip reapplying the patch if it is already installed.
+
+## Usage
+
+Navigate to the folder containing your `.raw` files and run:
 
 ```powershell
 pprc --no-negfix --e6
 ```
 
-Cada `.raw` se convierte usando su **propio** ancho/alto leído del header. **Ya no hace falta
-`--dimensions`.** (Igual lo podés seguir pasando para archivos sin header; el header tiene
-prioridad sólo cuando existe y valida.)
+Each RAW file will be converted using its own dimensions read directly from the header.
 
-Los `.tif` quedan en la subcarpeta `out`.
+**Manual `--dimensions` parameters are no longer required.**
 
-## El formato del RAW (referencia)
+The `--dimensions` option may still be used for files without a valid header. When a valid header is present, the header values take priority.
 
+Converted TIFF files are written to the `out` subfolder.
+
+## RAW File Format Reference
+
+```text
+Header = 16 bytes (4 little-endian DWORDs)
+
+[0] = 0x10
+[1] = Width
+[2] = Height
+[3] = 0x30
+
+Image Data:
+16-bit planar RGB
+
+R plane (Width × Height uint16)
+G plane (Width × Height uint16)
+B plane (Width × Height uint16)
+
+Total size:
+16 + Width × Height × 6 bytes
 ```
-Header = 16 bytes (4 dwords little-endian):  [0]=0x10  [1]=W  [2]=H  [3]=0x30
-Datos  = planar RGB 16-bit: plano R (W*H uint16), luego plano G, luego plano B
-tamaño = 16 + W*H*6
-```
 
-## Deshacer el parche
+## Restoring the Original Version
+
+To remove the patch and restore the original PPRC installation:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\Restore-pprc.ps1
 ```
 
-Restaura el `index.js` original desde el backup más reciente
-(`index.js.bak-preheaderpatch_<fecha>`).
+The script restores the original `index.js` from the most recent backup:
 
-## Si reinstalás/actualizás pprc
+```text
+index.js.bak-preheaderpatch_<date>
+```
 
-Un `npm install -g pakon-planar-raw-converter` reemplaza el `index.js` y borra el parche.
-Si pprc vuelve a pedir `--dimensions` o rechaza half-frames, simplemente volvé a correr
-`Install-pprc.ps1` (es idempotente).
+## Reinstalling or Updating PPRC
+
+Running:
+
+```powershell
+npm install -g pakon-planar-raw-converter
+```
+
+will replace `index.js` and remove the patch.
+
+If PPRC starts requiring `--dimensions` again or stops accepting half-frame files, simply rerun:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\Install-pprc.ps1
+```
+
+The installer is idempotent and can safely be run multiple times.
