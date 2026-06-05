@@ -1,0 +1,16 @@
+Windows Registry Editor Version 5.00
+
+; Pakon PSI - hacer que el checkbox "Save As Raw" arranque DESTILDADO.
+; SaveAsEnabled = 0  ->  destildado por default (PSI igual recuerda el ultimo uso:
+; si tildas y guardas raw, al salir vuelve a 1; volve a importar este .reg para resetear).
+;
+; Se incluyen las dos rutas: WOW6432Node (Windows 64-bit, caso normal en Win10/11)
+; y la ruta directa (Windows 32-bit / XP). Importar una que no exista es inofensivo.
+;
+; Uso: cerrar PSI, doble clic en este archivo y aceptar. Abrir PSI -> destildado.
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Pakon\PSI\Setup]
+"SaveAsEnabled"=dword:00000000
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Pakon\PSI\Setup]
+"SaveAsEnabled"=dword:00000000
