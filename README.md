@@ -151,6 +151,16 @@ The project focuses on preserving and extending the usability of the Pakon F135 
 
 ---
 
+## Support
+
+If this project helped you keep your Pakon running on Windows 11, consider supporting future development.
+
+☕ Ko-fi: https://ko-fi.com/lehmannjuancruz
+
+Support is completely optional, but it helps fund future development, bug fixes, reverse engineering efforts and new Pakon tools.
+
+---
+
 # Disclaimer
 
 This package is an unofficial community modification of the original Pakon software.
