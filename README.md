@@ -4,6 +4,8 @@ This package contains patched files for an existing Pakon installation.
 
 The original Pakon software and Windows 11 compatible drivers must already be installed before running this package.
 
+## Prerequisites
+
 Required installation order:
 
 1. Install the original Pakon software.
@@ -12,7 +14,7 @@ Required installation order:
 4. Run **install.bat** as Administrator.
 5. Launch PSI normally.
 
-This package does not include the original Pakon software or scanner drivers. It only installs patched files, registry updates and configuration changes.
+This package does **not** include the original Pakon software or scanner drivers. It only installs patched files, registry updates and configuration changes.
 
 ---
 
@@ -22,8 +24,6 @@ This package does not include the original Pakon software or scanner drivers. It
 
 Allows PSI to run correctly on modern versions of Windows by applying compatibility and ODBC fixes required for Windows 11.
 
----
-
 ## Half Frame Mode
 
 A new **Half Frame** option is available under the **Help** menu.
@@ -32,8 +32,6 @@ When enabled, scans are automatically split into individual half-frame images.
 
 The setting is persistent and will remain enabled after restarting PSI.
 
----
-
 ## UI Unlock During Scanning
 
 Several interface restrictions have been removed.
@@ -41,8 +39,6 @@ Several interface restrictions have been removed.
 While a scan is running, most controls remain accessible, allowing navigation and interaction without waiting for the scan to complete.
 
 **Current limitation:** image previews cannot yet be opened while an active scan is in progress.
-
----
 
 ## 16-Bit Planar RAW Extraction
 
@@ -53,7 +49,7 @@ You can start the extraction from either:
 - **Help → Extract RAW16**
 - The **Help (?) button** on the toolbar
 
-Workflow:
+### Workflow
 
 1. Scan your film normally.
 2. Run **Extract RAW16** using either method above.
@@ -63,8 +59,6 @@ Workflow:
 The exported files contain the original 16-bit planar RGB data produced by the scanner.
 
 **Note:** the toolbar Help button no longer opens context help. It now triggers the RAW16 extraction process.
-
----
 
 ## Save As Raw Disabled By Default
 
@@ -95,6 +89,12 @@ This patch is distributed separately and is not installed by this package.
 
 # Installation
 
+Run:
+
+    install.bat
+
+as **Administrator**.
+
 The installer automatically performs the following actions:
 
 - Installs the patched PSI executable
@@ -106,6 +106,17 @@ The installer automatically performs the following actions:
 - Creates a Pakon PSI desktop shortcut
 - Imports the Save As Raw default-off registry patch
 - Verifies required Visual C++ 2003 runtime DLLs
+
+---
+
+# Included Files
+
+| File | Purpose |
+|------|----------|
+| PSI.exe | Main PSI executable with Windows 11 compatibility and feature enhancements |
+| TLB.dll | RAW16 extraction, Half Frame support and additional functionality |
+| odbcjt32_patched_v10.dll | ODBC compatibility fix for Windows 11 |
+| pakon_saveasraw_default_off.reg | Disables Save As Raw by default |
 
 ---
 
@@ -127,14 +138,13 @@ At this time the issue is considered low priority because it does not affect ima
 
 ---
 
-# Included Files
+# Author
 
-| File | Purpose |
-|--------|--------|
-| PSI.exe | Main PSI executable with Windows 11 compatibility and feature enhancements |
-| TLB.dll | RAW16 extraction, Half Frame support and additional functionality |
-| odbcjt32_patched_v10.dll | ODBC compatibility fix for Windows 11 |
-| pakon_saveasraw_default_off.reg | Disables Save As Raw by default |
+This Windows 11 Enhanced Edition of Pakon PSI was created and maintained by:
+
+**Juan Cruz Lehmann**
+
+The project focuses on preserving and extending the usability of the Pakon F135 on modern Windows systems while maintaining compatibility with the original workflow.
 
 ---
 
