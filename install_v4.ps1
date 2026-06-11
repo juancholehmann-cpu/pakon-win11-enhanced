@@ -51,7 +51,7 @@ Backup-File $psiDst
 Copy-Item $psiSrc $psiDst -Force
 
 $md5psi = (Get-FileHash $psiDst -Algorithm MD5).Hash
-if ($md5psi -ne "FC01D5B0A53D4261E6D76205D3A076BC") { Write-Fail "PSI.exe MD5 mismatch after copy. Expected FC01D5B0A53D4261E6D76205D3A076BC, got $md5psi" }
+if ($md5psi -ne "BF2118B39E6ED9636FDA9018ECD66A28") { Write-Fail "PSI.exe MD5 mismatch after copy. Expected BF2118B39E6ED9636FDA9018ECD66A28, got $md5psi" }
 Write-OK "PSI.exe replaced and verified."
 
 # --- 2. TLB.dll ---
