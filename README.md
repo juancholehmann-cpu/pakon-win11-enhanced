@@ -68,6 +68,26 @@ This restores the normal PSI workflow and helps prevent accidental RAW exports.
 
 Users can still enable the option manually whenever needed.
 
+## Transparent Base Color Film Scanning
+
+A new **Clear Base Film** option is available under the **Help** menu.
+
+When enabled, PSI can correctly scan color film with a very transparent base (e.g. Santacolor, Harman Phoenix and similar emulsions). Without this option, this kind of film stopped scanning after the first frame in color mode, because the frame detector treated the bright transparent base as a continuous gap.
+
+### Usage
+
+1. Load the transparent-base color film as usual.
+2. Enable **Help → Clear Base Film** (a check mark appears next to the menu item).
+3. Scan normally.
+4. **Disable the option again before scanning regular (opaque-base) film.**
+
+### Important notes
+
+- The setting is **not persistent** by design. PSI resets it to off every time it starts. Leaving it on for normal opaque-base film can interfere with end-of-roll detection, so it is only meant to be enabled when scanning transparent-base color film.
+- The option only takes effect after the scanner has been initialized. Toggling it before the scanner is connected has no effect and is safe.
+- Fixed Pattern Correction (FPC) remains on, so the vertical-line artifacts ("FPN") that appeared with previous workarounds (registry-based FPC off plus external destripe) do not appear. No registry changes or post-processing are required.
+- This option replaces the earlier *Clear base film* behavior, which used to toggle FPC. The previous FPC-based workflow is no longer needed for transparent-base color film.
+
 ---
 
 # Optional PPRC Update (Not Included In Installer)
