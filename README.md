@@ -60,13 +60,25 @@ The exported files contain the original 16-bit planar RGB data produced by the s
 
 **Note:** the toolbar Help button no longer opens context help. It now triggers the RAW16 extraction process.
 
-## Save As Raw Disabled By Default
+## Positive Film Scanning
 
-The installer imports a registry patch that disables the **Save As Raw** checkbox by default.
+A new **Positive** option is now available in the **Film Color** settings, alongside Negative and C41 B/W.
 
-This restores the normal PSI workflow and helps prevent accidental RAW exports.
+When selected, PSI scans positive film (slides / transparencies) correctly, producing properly developed positive images instead of inverted or negative-masked results.
 
-Users can still enable the option manually whenever needed.
+## Full-Resolution 16 Base Scans
+
+PSI no longer crops 16 Base scans to 2941 × 1960. Scans are now kept at their full **3000 × 2000** dimensions, preserving the entire image area.
+
+## Ignore DX Sensors
+
+A new **Ignore DX** option is available under the **Setup** menu.
+
+When enabled (a check mark appears next to the menu item), PSI bypasses the scanner’s DX sensors during light calibration, so scanning works normally even when the DX sensors are missing or not functioning.
+
+The setting is persistent between sessions, so you can enable it once and keep scanning across restarts.
+
+**Tip:** if your scanner’s DX sensors are damaged, open **Setup → Ignore DX** once and enable it. From then on, every time you launch PSI the scan starts with the DX bypass already active.
 
 ## Transparent Base Color Film Scanning
 
@@ -124,8 +136,8 @@ The installer automatically performs the following actions:
 - Applies Windows XP compatibility settings
 - Disables IQueue auto-launch
 - Creates a Pakon PSI desktop shortcut
-- Imports the Save As Raw default-off registry patch
-- Verifies required Visual C++ 2003 runtime DLLs
+- Installs the bundled Visual C++ 2003 runtime DLLs (mfc71u.dll, msvcp71.dll, msvcr71.dll) from the vc2003 folder, only if they are missing
+- Installs PSIBitmapButtons.dll from the vc2003 folder, only if it is missing
 
 ---
 
@@ -136,7 +148,9 @@ The installer automatically performs the following actions:
 | PSI.exe | Main PSI executable with Windows 11 compatibility and feature enhancements |
 | TLB.dll | RAW16 extraction, Half Frame support and additional functionality |
 | odbcjt32_patched_v10.dll | ODBC compatibility fix for Windows 11 |
-| pakon_saveasraw_default_off.reg | Disables Save As Raw by default |
+| vc2003 (folder) | Bundled support libraries copied into the PSI folder only when missing |
+| mfc71u.dll, msvcp71.dll, msvcr71.dll | Visual C++ 2003 runtime (placed in the vc2003 folder); installed if missing |
+| PSIBitmapButtons.dll | PSI UI component (placed in the vc2003 folder); installed only if not already present |
 
 ---
 
