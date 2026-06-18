@@ -136,7 +136,7 @@ try {
     # --- 1. PSI.exe ---
     Write-Step "Installing patched PSI.exe..."
     $psiSrc = Find-PackageFile @("PSI.exe", "PSIActual_positivo_getter0.exe", "PSI(1).exe", "PSI_menufix.exe") "PSI.exe"
-    $md5psi = Install-Verified $psiSrc $psiDst "3BFEF5E2BF596A21E6A866F0472CCDA2" "PSI.exe"
+    $md5psi = Install-Verified $psiSrc $psiDst "DCF44F028C85C9014770549205A81525" "PSI.exe"
     Write-OK "PSI.exe replaced and verified."
 
     # --- 2. TLB.dll ---

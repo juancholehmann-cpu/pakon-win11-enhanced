@@ -100,6 +100,14 @@ When enabled, PSI can correctly scan color film with a very transparent base (e.
 - Fixed Pattern Correction (FPC) remains on, so the vertical-line artifacts ("FPN") that appeared with previous workarounds (registry-based FPC off plus external destripe) do not appear. No registry changes or post-processing are required.
 - This option replaces the earlier *Clear base film* behavior, which used to toggle FPC. The previous FPC-based workflow is no longer needed for transparent-base color film.
 
+## Custom Scanning Profiles
+
+A new **Profiles** system is available under the **Setup** menu to allow saving and recalling up to 5 custom scanning configurations.
+
+- **Save Profile**: Save the settings of the currently selected photo into one of 5 available slots. You can assign a custom name to each profile.
+- **Apply Profile**: Quickly load your saved settings from the Profiles menu (Profile 1 to 5).
+- **Delete Profile**: A submenu allows you to delete specific profiles individually (Delete Profile 1 to 5). PSI will warn you if you attempt to delete an empty slot and will ask for confirmation before deleting an occupied slot.
+
 ---
 
 # Optional PPRC Update (Not Included In Installer)
