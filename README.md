@@ -100,7 +100,7 @@ When enabled, PSI can correctly scan color film with a very transparent base (e.
 - Fixed Pattern Correction (FPC) remains on, so the vertical-line artifacts ("FPN") that appeared with previous workarounds (registry-based FPC off plus external destripe) do not appear. No registry changes or post-processing are required.
 - This option replaces the earlier *Clear base film* behavior, which used to toggle FPC. The previous FPC-based workflow is no longer needed for transparent-base color film.
 
-## Custom Scanning Profiles
+## Custom Profiles
 
 A new **Profiles** system is available under the **Setup** menu to allow saving and recalling up to 5 custom scanning configurations.
 
