@@ -257,6 +257,26 @@ try {
     Write-Info "$iqKey  ->  StartIQueue = 0"
     Write-OK "IQueue auto-launch disabled."
 
+    # --- 7b. Ensure DX light-calibration registry value EXISTS (prevents 'Error code 25' on clean installs) ---
+    # Root cause: on a fresh install this value is ABSENT; PSI/TLB.dll does not handle a missing value during
+    # light calibration and fails the init chain (reported wrapped as 'Error code 25'). Just having the value
+    # PRESENT fixes it (0 or 1 both work). 1 = require DX (safe default). We only CREATE it if missing, so a
+    # tech who set 0 for a scanner with broken/absent DX sensors is never overwritten.
+    Write-Step "Ensuring DX light-calibration registry value exists..."
+    if ($is64) { $pakonRoot = "HKLM:\SOFTWARE\WOW6432Node\Pakon" } else { $pakonRoot = "HKLM:\SOFTWARE\Pakon" }
+    $dxTestKey = "$pakonRoot\TLB\Scan\Test"
+    $dxValName = "RequireDxSensorsDuringLightCalibration"
+    if (-not (Test-Path $dxTestKey)) { New-Item -Path $dxTestKey -Force | Out-Null }
+    $dxExisting = Get-ItemProperty -Path $dxTestKey -Name $dxValName -ErrorAction SilentlyContinue
+    if ($null -eq $dxExisting) {
+        Set-ItemProperty -Path $dxTestKey -Name $dxValName -Value 1 -Type DWord
+        Write-Info "$dxTestKey  ->  $dxValName = 1 (created; 1 = require DX, the safe default)"
+        Write-OK "DX light-calibration value was MISSING and has been created (prevents Error code 25 on clean installs)."
+    } else {
+        Write-Info "$dxTestKey  ->  $dxValName already exists (= $($dxExisting.$dxValName)); left as-is."
+        Write-OK "DX light-calibration value already present; left untouched."
+    }
+
     # --- 8. Desktop shortcut ---
     Write-Step "Creating desktop shortcut..."
     $launcherPath = Join-Path $psiDir "PSI_launcher.bat"
