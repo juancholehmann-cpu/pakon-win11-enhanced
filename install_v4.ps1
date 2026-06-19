@@ -1,5 +1,6 @@
 # Pakon F135 PSI - Windows Installer
 # Patched build: Positive default + IQueue off + Crop35mm off (+ Save As Raw default-off)
+# Also creates C:\ProgramData\Pakon\Temp (RAW16 frame staging) so Save As Raw works on clean installs.
 # Run as Administrator: right-click install.bat -> "Run as administrator"
 
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
@@ -212,6 +213,32 @@ try {
         if (-not (Test-Path $odbcInst)) { New-Item -Path $odbcInst -Force | Out-Null }
         Set-ItemProperty $odbcInst -Name $dsn -Value "Microsoft Access Driver (*.mdb)"
         Write-OK "DSN '$dsn' configured."
+    }
+
+    # --- 5b. RAW16 temp folder (psi_frame_NN.raw land here during extraction) ---
+    Write-Step "Creating RAW16 temp folder (C:\ProgramData\Pakon\Temp)..."
+    $rawTempBase = Join-Path $env:ProgramData "Pakon"
+    $rawTempDir  = Join-Path $rawTempBase "Temp"
+    try {
+        if (-not (Test-Path $rawTempDir)) {
+            New-Item -ItemType Directory -Path $rawTempDir -Force | Out-Null
+            Write-Info "Created: $rawTempDir"
+        } else {
+            Write-Info "Already present: $rawTempDir"
+        }
+        # Grant the local Users group (SID S-1-5-32-545) Modify, inherited to children.
+        icacls $rawTempBase /grant "*S-1-5-32-545:(OI)(CI)M" /T 2>$null | Out-Null
+        # Write-test so we fail loudly if Controlled Folder Access / AV blocks it.
+        $rawTestFile = Join-Path $rawTempDir "_writetest.tmp"
+        try {
+            Set-Content -Path $rawTestFile -Value "test" -ErrorAction Stop
+            Remove-Item $rawTestFile -Force -ErrorAction SilentlyContinue
+            Write-OK "RAW16 temp folder ready and writable."
+        } catch {
+            Write-Warn "RAW16 temp folder exists but is NOT writable. Check Windows Defender 'Controlled Folder Access' / antivirus and allow PSI.exe. Without this, Save As Raw falls back to JPG. Details: $($_.Exception.Message)"
+        }
+    } catch {
+        Write-Warn "Could not create $rawTempDir : $($_.Exception.Message). Save As Raw will fall back to JPG until this folder exists and is writable."
     }
 
     # --- 6. Compatibility flag (Windows XP SP3) ---
